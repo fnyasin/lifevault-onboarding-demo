@@ -612,15 +612,17 @@ export default function Milestone({
           photoOverlay={
             // Rides WITH the photo (flies off on a swipe): the scrim + the name.
             <>
-              <div aria-hidden className="absolute inset-x-0 bottom-0 h-[52%] rounded-b-[20px] bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
-              <h1 className={`${SERIF} absolute inset-x-0 bottom-[92px] px-5 text-[27px] leading-[1.12] text-white [text-shadow:0_1px_10px_rgba(0,0,0,0.45)]`}>
+              <div aria-hidden className="absolute inset-x-0 bottom-0 h-[40%] rounded-b-[20px] bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+              <h1 className={`${SERIF} absolute inset-x-0 bottom-[80px] px-5 text-[27px] leading-[1.12] text-white [text-shadow:0_1px_10px_rgba(0,0,0,0.45)]`}>
                 {headline}
               </h1>
             </>
           }
         >
-          {/* Stays FIXED (deck controls, not part of any one photo): the action row. */}
-          <div className="absolute inset-x-0 bottom-0 p-5">
+          {/* Stays FIXED (deck controls, not part of any one photo): the action
+              row, kept close to the bottom edge so more of the photo shows
+              (Fatimah). */}
+          <div className="absolute inset-x-0 bottom-0 px-5 pb-2">
             <div className="pointer-events-auto flex items-center justify-between">
               <CircleButton
                 label="Back"
