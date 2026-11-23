@@ -45,9 +45,11 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="w-full max-w-[220px] sm:max-w-[420px] lg:max-w-[480px] lg:flex-1">
+        <div className="w-full max-w-[340px] sm:max-w-[440px] lg:max-w-[480px] lg:flex-1">
+          {/* The export carries a faint white frame fill; multiply blends it
+              into the cream page so no box shows behind the prints. */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/onboarding/photo-deck.png" alt="A small stack of old family photos" className="h-auto w-full" />
+          <img src="/onboarding/photo-deck.png" alt="A small stack of old family photos" className="h-auto w-full mix-blend-multiply" />
         </div>
       </div>
     </main>
