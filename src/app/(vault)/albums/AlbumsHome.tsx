@@ -21,7 +21,6 @@ const SAMPLE_PEOPLE = [
   { name: "Grandma Lou", count: 62 },
   { name: "Maya", count: 48 },
   { name: "Ravi", count: 39 },
-  { name: "Nadia", count: 24 },
 ];
 
 function Muted({ children }: { children: React.ReactNode }) {
