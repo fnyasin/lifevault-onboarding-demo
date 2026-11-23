@@ -18,7 +18,7 @@ export default function Home() {
             all in a private vault. AI suggests the place, date and event from each story, and you
             decide what stays.
           </p>
-          <p className="mt-4 text-[14px] leading-[1.55] text-[#1a1a1a]/60 sm:text-[15px]">
+          <p className="mt-4 text-[16px] leading-[1.55] text-[#1a1a1a]/60 sm:text-[17px]">
             Try it with four sample photos in about two minutes. No account needed. This demo
             doesn&rsquo;t use real AI. The full product does.
           </p>
