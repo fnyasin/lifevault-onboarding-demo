@@ -7,15 +7,14 @@
 // animation) which carries nothing to save. (The product's Starter plan swaps
 // the voice surface for a hand-tagging panel; this demo shows Premium only.)
 //
-// Speak mode is REAL dictation via the browser's speech recognition (Web
-// Speech API): words land in the story as you talk. The browser's own speech
-// service does the transcription (it may process audio in the vendor's cloud).
-// On plans with voice notes, the actual audio is ALSO recorded (one shared
-// getUserMedia stream feeding MediaRecorder + the waveform) and, when the
-// family member saves the memory, stored in the family's private vault so the
-// real voice can be played back later. Nothing uploads until they press Save,
-// and the copy says exactly what is kept. Browsers without support simply
-// don't get the toggle / the recording.
+// Speak mode records the whole take (one shared getUserMedia stream feeding
+// MediaRecorder + the waveform), and after Finish the words land in the story
+// box for review: talk first, words after, the same on every device (see
+// lib/platform.ts; live as-you-talk dictation is switched off). On plans with
+// voice notes the recording is also kept, and when the family member saves
+// the memory it goes to the family's private vault so the real voice can be
+// played back later. Nothing uploads until they press Save. Browsers that
+// can't record simply don't get the toggle.
 //
 // Demo note: in the product, every platform now records the take and the
 // server turns it into words after Finish (see lib/platform.ts). This demo has
@@ -56,6 +55,8 @@ export type StoryCaptureProps = {
   onUseExample?: () => void;
   /** Demo only: the sample words that stand in for server transcription. */
   demoTranscript?: string;
+  /** Which capture mode the screen opens on. The product opens on Speak. */
+  initialMode?: "speak" | "type";
 };
 
 const DEFAULT_SUGGESTIONS = ["Who's here?", "Where was this?", "What year?"];
@@ -309,10 +310,11 @@ export default function StoryCapture({
   onVoiceRecorded,
   onUseExample,
   demoTranscript,
+  initialMode = "speak",
 }: StoryCaptureProps) {
   // Premium capture mode, Speak first (the Figma opens on the mic);
   // "type" reveals the textarea instead. Falls back to type when unsupported.
-  const [mode, setMode] = useState<"speak" | "type">("speak");
+  const [mode, setMode] = useState<"speak" | "type">(initialMode);
 
   // ONE shared microphone stream (lib/micCapture.ts) feeds the recognizer,
   // the recorder, and the waveform, a page's second

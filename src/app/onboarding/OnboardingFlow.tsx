@@ -254,6 +254,9 @@ export default function OnboardingFlow({
           onVoiceRecorded={setVoiceTake}
           onUseExample={() => setStory(exampleStory(photoAt(i).id, subject))}
           demoTranscript={exampleStory(photoAt(i).id, subject)}
+          // The product opens on Speak. The demo opens on Type: a visitor
+          // may not want to talk to their laptop, and Speak is one tap away.
+          initialMode="type"
         />
       );
 

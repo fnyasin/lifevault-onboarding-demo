@@ -11,7 +11,7 @@ export default function Home() {
         <div className="w-full max-w-[560px]">
           <p className="text-[12px] font-bold uppercase tracking-[0.1em] text-[#3c7a7c]">LifeVault · interactive demo</p>
           <h1 className="mt-3 [font-family:var(--font-gotu),Georgia,serif] text-[32px] leading-[1.12] text-[#1a1a1a] sm:text-[44px]">
-            From a box of old prints to the stories behind them.
+            From scanned photos to the first saved story.
           </h1>
           <p className="mt-4 text-[16px] leading-[1.55] text-[#1a1a1a]/60 sm:text-[17px]">
             LifeVault scans a family&rsquo;s printed photos and helps them keep the stories that go with
