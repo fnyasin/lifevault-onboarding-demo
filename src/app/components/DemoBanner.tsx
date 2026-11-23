@@ -31,7 +31,7 @@ export default function DemoBanner() {
   return (
     <div
       ref={ref}
-      className="sticky top-0 z-[45] flex items-center justify-between gap-3 bg-[#1a1a1a] px-4 py-1.5 text-[15px] text-white [font-family:var(--font-lato),system-ui,sans-serif] sm:px-6"
+      className="sticky top-0 z-[45] flex items-center justify-between gap-3 bg-[#1a1a1a] px-4 py-2.5 text-[15px] text-white [font-family:var(--font-lato),system-ui,sans-serif] sm:px-6"
     >
       <Link
         href="/"
