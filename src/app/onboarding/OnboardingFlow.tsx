@@ -5,7 +5,8 @@
 // The batch model: one photo at a time on the Milestone stack. Swipe RIGHT (or
 // "I've got a story") → StoryCapture → Summary for that photo. Swipe LEFT (or
 // Skip) → next photo. After the whole batch: Celebration, then continue into
-// another batch or head to the vault.
+// another batch or head to the vault. Saving a memory opens "Share this
+// memory", then lands in the vault.
 //
 // The story: "Continue" on the capture screen reads the words and returns
 // place / date / event candidates, the Summary shows that catch for HUMAN
@@ -30,6 +31,7 @@ import Milestone from "./Milestone";
 import Celebration from "./Celebration";
 import StoryCapture from "./StoryCapture";
 import Summary from "./Summary";
+import ShareVaultModal from "@/app/components/ShareVaultModal";
 
 type Phase = "swiping" | "story" | "summary" | "celebration";
 
@@ -57,6 +59,9 @@ export default function OnboardingFlow({
   const [catching, setCatching] = useState(false);
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
+  // After a memory saves, the "Share this memory" step opens over the
+  // summary: invite family, then continue to the vault.
+  const [sharing, setSharing] = useState(false);
   // Invalidates an in-flight extraction when the person leaves the story
   // screen, so a late response can never attach one photo's catch to another.
   const catchGen = useRef(0);
@@ -106,8 +111,10 @@ export default function OnboardingFlow({
   }
 
   function finish() {
-    // The vault lands in a later step of this demo; until then, start over.
-    router.push("/");
+    setSharing(false);
+    // Finishing lands on the PHOTO GRID: the one-time reveal. (In the product,
+    // every later login lands on Activity instead.)
+    router.push("/vault?welcome=1");
   }
 
   function leaveStoryState() {
@@ -201,6 +208,21 @@ export default function OnboardingFlow({
       tags: p.tags.map(t => t.value),
     };
   }
+  // The card in the share step: the headline borrows a place/event/scene tag;
+  // the subtitle surfaces the person + a date/era. "+N tags" counts only what's
+  // NOT already shown, so a place used in the title isn't double-counted.
+  function shareMemoryMeta(idx: number) {
+    const byType = (t: string) => caught.find(c => c.tag_type === t)?.value;
+    const titleTag = byType("place") ? "place" : byType("event") ? "event" : byType("scene") ? "scene" : null;
+    const dateTag = byType("date") ? "date" : byType("era") ? "era" : null;
+    const title = (titleTag && byType(titleTag)) || `A memory of ${subject}`;
+    const dateBit = dateTag && byType(dateTag);
+    const extra = Math.max(0, caught.length - (titleTag ? 1 : 0) - (dateTag ? 1 : 0));
+    const subtitle = [subject, dateBit, extra > 0 ? `+${extra} tag${extra === 1 ? "" : "s"}` : null]
+      .filter(Boolean).join(" · ");
+    return { photoUrl: photoAt(idx).url, title, subtitle };
+  }
+
   const onRemove = (field: SummaryField, value: string) => setCaught(c => removeCaught(c, field, value));
   const onAdd = (field: SummaryField, value: string) => setCaught(c => addCaught(c, field, value));
 
@@ -237,18 +259,28 @@ export default function OnboardingFlow({
 
     case "summary":
       return (
-        <Summary
-          photoUrl={photoAt(i).url}
-          story={story.trim() || undefined}
-          voiceTake={voiceTake}
-          details={summaryDetails()}
-          onConfirm={() => saveMemory(i, finish)}
-          onRemove={onRemove}
-          onAdd={onAdd}
-          onBack={() => setPhase("story")}
-          saving={saving}
-          error={saveError}
-        />
+        <>
+          <Summary
+            photoUrl={photoAt(i).url}
+            story={story.trim() || undefined}
+            voiceTake={voiceTake}
+            details={summaryDetails()}
+            onConfirm={() => saveMemory(i, () => setSharing(true))}
+            onRemove={onRemove}
+            onAdd={onAdd}
+            onBack={() => setPhase("story")}
+            saving={saving}
+            error={saveError}
+          />
+          <ShareVaultModal
+            open={sharing}
+            memory={shareMemoryMeta(i)}
+            title="Share this memory"
+            subtitle="Invite family to view, or add someone as a collaborator."
+            primaryLabel="Skip and continue to vault"
+            onClose={finish}
+          />
+        </>
       );
 
     default: {
