@@ -11,8 +11,9 @@ export type SamplePhoto = {
 };
 
 export const SAMPLE_PHOTOS: SamplePhoto[] = [
-  // The welcome screen marks the woman's face in this one.
-  { id: "sample-hero", url: "/onboarding/sample-hero.jpg", faceBox: { x: 385, y: 155, w: 130, h: 165 } },
+  // The welcome screen marks the woman's face in this one: hairline to chin.
+  // (The screen adds its own breathing room around the box.)
+  { id: "sample-hero", url: "/onboarding/sample-hero.jpg", faceBox: { x: 408, y: 228, w: 112, h: 162 } },
   { id: "sample-portrait-right", url: "/onboarding/sample-portrait-right.jpg", faceBox: null },
   { id: "sample-portrait-left", url: "/onboarding/sample-portrait-left.jpg", faceBox: null },
   { id: "sample-wide", url: "/onboarding/sample-wide.jpg", faceBox: null },
