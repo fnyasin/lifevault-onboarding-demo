@@ -48,7 +48,8 @@ export default function FamilyShell(props: {
   const ariaCurrent = (item: NavItem) => (item === activeItem ? "page" : undefined);
 
   return (
-    <div className="flex h-screen overflow-hidden bg-white text-zinc-900">
+    // Full height below the demo banner, so only the content column scrolls.
+    <div className="flex h-[calc(100dvh-var(--top-banner-height,0px))] overflow-hidden bg-white text-zinc-900">
       {/* Fixed sidebar (md+), never scrolls; profile pinned to the bottom */}
       <aside className="hidden md:flex w-60 shrink-0 flex-col gap-6 border-r border-zinc-200 p-4">
         <div className="flex items-center gap-2">

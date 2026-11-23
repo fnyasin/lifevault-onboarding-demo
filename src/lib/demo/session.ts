@@ -69,6 +69,19 @@ export function writeSession(patch: Partial<DemoSession>): DemoSession {
   return memory;
 }
 
+/** Forget everything: the name, the saved memories. */
+export function resetSession(): DemoSession {
+  memory = EMPTY;
+  try {
+    sessionStorage.removeItem(KEY);
+  } catch {
+    // private mode or blocked storage: the in-memory reset is enough
+  }
+  lastRaw = null;
+  listeners.forEach((l) => l());
+  return memory;
+}
+
 /** Save (or replace) the memory for one photo. */
 export function saveMemory(m: DemoMemory): DemoSession {
   const rest = readSession().memories.filter((x) => x.photoId !== m.photoId);
