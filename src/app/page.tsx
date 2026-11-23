@@ -11,19 +11,17 @@ export default function Home() {
         <div className="w-full max-w-[560px]">
           <p className="text-[12px] font-bold uppercase tracking-[0.1em] text-[#3c7a7c]">LifeVault · interactive demo</p>
           <h1 className="mt-3 [font-family:var(--font-gotu),Georgia,serif] text-[32px] leading-[1.12] text-[#1a1a1a] sm:text-[44px]">
-            From scanned photos to the first saved story.
+            From scanned photos to saved stories.
           </h1>
           <p className="mt-4 text-[16px] leading-[1.55] text-[#1a1a1a]/60 sm:text-[17px]">
-            LifeVault scans a family&rsquo;s printed photos and helps them keep the stories that go with
-            each one. This is the first run: name a face, flip through photos, tell the story behind
-            one, check what the AI picked out, and land in your vault.
+            Name the people in your family&rsquo;s old photos, tell the stories behind them, and save it
+            all in a private vault. AI suggests the place, date and event from each story, and you
+            decide what stays.
           </p>
-
-          <ul className="mt-6 space-y-2.5 text-[14px] leading-[1.5] text-[#1a1a1a]/70 sm:text-[15px]">
-            <li className="flex gap-2.5"><Dot />Runs on four sample photos. Nothing you type leaves this browser.</li>
-            <li className="flex gap-2.5"><Dot />The AI suggestions are canned here. In the product, Claude reads the story.</li>
-            <li className="flex gap-2.5"><Dot />Takes about two minutes, on a phone or a computer.</li>
-          </ul>
+          <p className="mt-4 text-[14px] leading-[1.55] text-[#1a1a1a]/60 sm:text-[15px]">
+            Try it with four sample photos in about two minutes. No account needed. This demo
+            doesn&rsquo;t use real AI. The full product does.
+          </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
             <Link
@@ -54,8 +52,4 @@ export default function Home() {
       </div>
     </main>
   );
-}
-
-function Dot() {
-  return <span aria-hidden className="mt-[9px] h-1.5 w-1.5 shrink-0 rounded-full bg-[#3c7a7c]" />;
 }
