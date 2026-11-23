@@ -350,11 +350,13 @@ export default function ShareVaultModal({
           </div>
         </div>
 
-        {/* Primary action, closes the modal (in onboarding: continue to vault) */}
+        {/* Primary action, closes the modal (in onboarding: continue to vault).
+            Solid teal like Save memory, so the way forward is easy to spot
+            (Fatimah). */}
         <button
           type="button"
           onClick={onClose}
-          className="w-full rounded-full border-[1.5px] border-[#3c7a7c] py-[13px] text-[15px] font-bold text-[#3c7a7c] hover:bg-[#deebeb]/40 active:scale-[0.99] transition-all duration-100"
+          className="w-full rounded-full bg-[#3c7a7c] py-[13px] text-[15px] font-bold text-white shadow-[0_10px_24px_rgba(60,122,124,0.28)] hover:bg-[#336a6c] active:scale-[0.99] transition-all duration-100"
         >
           {primaryLabel}
         </button>

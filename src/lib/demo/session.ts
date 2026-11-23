@@ -27,9 +27,11 @@ export type DemoSession = {
   subject: string | null;
   /** Memories saved during onboarding, newest first. */
   memories: DemoMemory[];
+  /** Set when onboarding finishes; the vault plays its reveal once and clears it. */
+  revealPending: boolean;
 };
 
-const EMPTY: DemoSession = { subject: null, memories: [] };
+const EMPTY: DemoSession = { subject: null, memories: [], revealPending: false };
 
 let memory: DemoSession = EMPTY;
 let lastRaw: string | null = null;

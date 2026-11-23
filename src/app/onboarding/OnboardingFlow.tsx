@@ -26,7 +26,7 @@ import type { TagCandidate } from "@/lib/photo-tags";
 import type { VoiceRecording } from "@/lib/useVoiceRecorder";
 import { SAMPLE_PHOTOS, DEMO_PHOTO_COUNT } from "@/lib/demo/photos";
 import { suggestTagsSlowly, exampleStory } from "@/lib/demo/suggest";
-import { saveMemory as keepMemory } from "@/lib/demo/session";
+import { saveMemory as keepMemory, writeSession } from "@/lib/demo/session";
 import Milestone from "./Milestone";
 import Celebration from "./Celebration";
 import StoryCapture from "./StoryCapture";
@@ -114,7 +114,8 @@ export default function OnboardingFlow({
     setSharing(false);
     // Finishing lands on the PHOTO GRID: the one-time reveal. (In the product,
     // every later login lands on Activity instead.)
-    router.push("/vault?welcome=1");
+    writeSession({ revealPending: true });
+    router.push("/vault");
   }
 
   function leaveStoryState() {
