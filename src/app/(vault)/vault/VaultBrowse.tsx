@@ -4,7 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Confetti from "@/app/components/Confetti";
 import ShareVaultModal from "@/app/components/ShareVaultModal";
 import { SAMPLE_PHOTOS } from "@/lib/demo/photos";
-import { readSession, subscribeSession, subjectName } from "@/lib/demo/session";
+import { readSession, subscribeSession, subjectName, writeSession } from "@/lib/demo/session";
 import { memoryFor, photoMatches, threadFor } from "@/lib/demo/vault";
 import MemorySheet from "./MemorySheet";
 
@@ -78,19 +78,21 @@ export default function VaultBrowse() {
   const subject = session ? subjectName(session) : "";
   const query = params.get("q") ?? "";
   const openPhoto = params.get("photo");
-  const welcome = params.get("welcome") === "1";
 
   const [searchText, setSearchText] = useState(query);
   const [inviteOpen, setInviteOpen] = useState(false);
   const [addMenuOpen, setAddMenuOpen] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
   // The reveal: confetti and a saved-memory toast, once, on arrival from
-  // onboarding. The flag is dropped from the URL so a refresh doesn't replay it.
-  const [celebrate] = useState(welcome);
+  // onboarding. Finishing onboarding leaves a one-time flag in the demo
+  // session (not the URL, so a refresh or a shared link never replays it).
+  // It's captured into state here (the "adjust state during render" pattern)
+  // and cleared, so this visit keeps the moment and the next one doesn't.
+  const [celebrate, setCelebrate] = useState(false);
+  if (session?.revealPending && !celebrate) setCelebrate(true);
   useEffect(() => {
-    if (!welcome) return;
-    router.replace("/vault", { scroll: false });
-  }, [welcome, router]);
+    if (session?.revealPending) writeSession({ revealPending: false });
+  }, [session?.revealPending]);
 
   // Re-sync the box when the URL's query changes (Back/forward, album links),
   // the "adjust state on prop change" pattern (no effect).
