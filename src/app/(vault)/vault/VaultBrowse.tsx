@@ -4,7 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Confetti from "@/app/components/Confetti";
 import ShareVaultModal from "@/app/components/ShareVaultModal";
 import { SAMPLE_PHOTOS } from "@/lib/demo/photos";
-import { readSession, subscribeSession, subjectName, writeSession } from "@/lib/demo/session";
+import { readSession, resetSession, subscribeSession, subjectName, writeSession } from "@/lib/demo/session";
 import { memoryFor, photoMatches, threadFor } from "@/lib/demo/vault";
 import MemorySheet from "./MemorySheet";
 
@@ -289,6 +289,18 @@ export default function VaultBrowse() {
         <p className="mt-8 text-center text-[13px] text-[#8a857c]">
           In LifeVault, every scanned photo lands here. This demo has four.
         </p>
+        {/* The end of the demo's journey, so the way to try it again lives
+            here rather than in a bar over every screen. */}
+        <div className="mt-4 flex justify-center">
+          <button
+            type="button"
+            onClick={() => { resetSession(); router.push("/"); }}
+            className="min-h-[44px] rounded-full border border-zinc-300 px-5 text-[15px] font-semibold transition-colors hover:bg-zinc-50"
+            style={{ color: TEAL }}
+          >
+            Start the demo again
+          </button>
+        </div>
       </main>
 
       {openPhoto && SAMPLE_PHOTOS.some((p) => p.id === openPhoto) && (

@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Gotu, Lato } from "next/font/google";
 import ScrollTopOnNavigate from "@/app/components/ScrollTopOnNavigate";
-import DemoBanner from "@/app/components/DemoBanner";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -50,7 +49,6 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <ScrollTopOnNavigate />
-        <DemoBanner />
         {children}
       </body>
     </html>

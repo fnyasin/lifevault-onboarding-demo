@@ -49,8 +49,8 @@ export type FaceBox = { x: number; y: number; w: number; h: number };
 // photo never flashes an empty card for a frame), useEffect on the server.
 const useIsoLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
-// Mobile only: the immersive milestone is a FIXED, non-scrolling stage pinned
-// below the top banner. Locking page scroll while it's mounted
+// Mobile only: the immersive milestone is a FIXED, non-scrolling stage that
+// fills the screen. Locking page scroll while it's mounted
 // is what stops iOS Safari's collapsing toolbar from leaving the card parked
 // mid-screen, with nothing to scroll, it can't land anywhere but the top.
 // Restores on unmount and steps aside on landscape ≥1024 (tablet-landscape +
@@ -581,7 +581,7 @@ export default function Milestone({
   return (
     // NO min-h-screen on phones: the immersive card is already sized to the
     // viewport (100svh − chrome), so forcing the main to a FULL 100vh on top of
-    // the ~44px top banner made the page 44px taller than the screen, that
+    // the product's ~44px trial banner made the page 44px taller than the screen, that
     // overflow is what left the top scrolled off (Fatimah, iPhone), and no
     // scroll-reset can fix an over-tall page. Let the page be exactly its
     // content on mobile; desktop keeps min-h-screen.
@@ -590,12 +590,11 @@ export default function Milestone({
           no dashes, no pile, headline and the three actions float ON the
           photo over a bottom scrim. Swipe mechanics unchanged. Tablet and
           desktop keep the approved composition below. */}
-      {/* Fixed, non-scrolling stage pinned below the top banner: its
+      {/* Fixed, non-scrolling stage that fills the screen: its
           height is the true visible area (fixed inset-x + bottom-0 tracks iOS's
           dynamic toolbar), so the card can never open scrolled mid-screen. */}
       <div
-        className="fixed inset-x-0 bottom-0 z-30 mx-auto max-w-[460px] overflow-hidden p-2.5 landscape:lg:hidden"
-        style={{ top: "var(--top-banner-height, 0px)" }}
+        className="fixed inset-x-0 top-0 bottom-0 z-30 mx-auto max-w-[460px] overflow-hidden p-2.5 landscape:lg:hidden"
       >
         <ImmersiveStageLock />
         <PhotoStack
