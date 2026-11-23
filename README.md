@@ -1,6 +1,6 @@
 # LifeVault onboarding demo
 
-**Live demo:** link coming once it's deployed.
+**Live demo:** https://lifevault-onboarding-demo.vercel.app
 
 LifeVault is a product I designed and built: a private home for a family's printed photos and the stories behind them. A family sends in their prints, they get scanned, and the app helps them save who is in each photo, where it was taken and what was happening.
 
@@ -27,6 +27,7 @@ This demo was put together the same way, through a handful of pull requests. Eac
 3. [Land in the vault: share step, photo grid, activity and albums](https://github.com/fnyasin/lifevault-onboarding-demo/pull/3)
 4. [Demo framing: intro, demo banner, start over, mobile polish](https://github.com/fnyasin/lifevault-onboarding-demo/pull/4)
 5. [Fixes before going public: one swipe, one skip](https://github.com/fnyasin/lifevault-onboarding-demo/pull/5)
+6. [Live link, a teal way forward, and a steadier vault reveal](https://github.com/fnyasin/lifevault-onboarding-demo/pull/6)
 
 ## How AI works in the product
 
