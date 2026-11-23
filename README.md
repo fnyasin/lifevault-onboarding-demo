@@ -18,16 +18,22 @@ It takes about two minutes, on a phone or a computer.
 
 ## How it was built
 
-I designed LifeVault in Figma and built it with Claude Code. I don't write code myself. I set the direction, made the design and product calls, tested on my iPhone, and asked for changes until each screen worked the way I wanted. Claude Code wrote the code. The full product came together over 217 merged pull requests between June and August 2026.
+I designed LifeVault in Figma and built it with Claude Code. I don't write code myself. I acted as the supervisor: I set the direction and made the design and product calls, and Claude Code wrote the code. The full product came together over 217 merged pull requests between June and August 2026.
 
-This demo was put together the same way, through a handful of pull requests. Each one explains the design decisions behind its part of the flow:
+I also set up how the work got done:
+
+- **Written rules Claude follows every session.** Claude starts each session fresh, so I had it write my decisions into Markdown files in the repo: a product spec, a build process (small steps, tests first) and Git rules (one branch per change, a draft pull request for each, nothing merged without my approval). Standing rules live there too, such as: AI output is only a suggestion, and nothing becomes official until a person approves it.
+- **A second AI as the reviewer.** From July on, Codex, OpenAI's coding agent, reviewed Claude's work. Some larger features, like voice notes and photo search, started as a written plan that Codex reviewed before any code was written. For bigger changes and tricky bugs, Claude wrote up the problem for Codex, Codex sent back findings ranked by severity, and Claude fixed them before I approved the merge.
+- **Testing on my iPhone.** I tested the flows on my own phone and sent back what broke. You'll see those notes in the code comments, marked "(Fatimah, on iPhone)".
+
+This demo was built with Claude Code too, one pull request per change, each explaining the decision behind it. The main ones:
 
 1. [Photo deck onboarding: name a face, then one photo at a time](https://github.com/fnyasin/lifevault-onboarding-demo/pull/1)
 2. [Story capture with AI-suggested chips the person reviews before saving](https://github.com/fnyasin/lifevault-onboarding-demo/pull/2)
 3. [Land in the vault: share step, photo grid, activity and albums](https://github.com/fnyasin/lifevault-onboarding-demo/pull/3)
 4. [Demo framing: intro, demo banner, start over, mobile polish](https://github.com/fnyasin/lifevault-onboarding-demo/pull/4)
-5. [Fixes before going public: one swipe, one skip](https://github.com/fnyasin/lifevault-onboarding-demo/pull/5)
-6. [Live link, a teal way forward, and a steadier vault reveal](https://github.com/fnyasin/lifevault-onboarding-demo/pull/6)
+
+Plus smaller fixes from my own testing after launch. [See all pull requests](https://github.com/fnyasin/lifevault-onboarding-demo/pulls?q=is%3Apr+is%3Aclosed).
 
 ## How AI works in the product
 
@@ -47,7 +53,7 @@ This demo was put together the same way, through a handful of pull requests. Eac
 
 ## Where this came from
 
-This is extracted from my private LifeVault repo (the product is paused). Only the onboarding and vault screens came over. There is no backend, database, payments, sign-in or customer data here. Most code comments are the originals, so you'll see notes like "(Fatimah, on iPhone)" where a decision came from my own testing.
+This demo is built from my private LifeVault repo. I brought over the onboarding flow and the vault so it shows one complete journey, start to finish. There's no backend, database, payments, sign-in or customer data here.
 
 ## Run it locally
 
