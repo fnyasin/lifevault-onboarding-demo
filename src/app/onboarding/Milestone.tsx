@@ -230,6 +230,10 @@ function DraggableHero({
 }) {
   const [drag, setDrag] = useState({ dx: 0, dy: 0, active: false, leaving: 0 as 0 | 1 | -1 });
   const start = useRef<{ x: number; y: number } | null>(null);
+  // The live horizontal offset, read when the pointer lets go. Kept in a ref
+  // so deciding the swipe never happens inside a state updater (React may run
+  // updaters twice in development, which fired the callback twice).
+  const dxRef = useRef(0);
   // A button press and a drag both end the same way: the card leaves.
   const leaving = leave !== 0 ? leave : drag.leaving;
 
@@ -237,12 +241,14 @@ function DraggableHero({
     if (leaving) return;
     try { (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId); } catch { /* fine without capture */ }
     start.current = { x: e.clientX, y: e.clientY };
+    dxRef.current = 0;
     setDrag(d => ({ ...d, active: true }));
   }
   function onPointerMove(e: React.PointerEvent) {
     if (!start.current || leaving) return;
     const dx = e.clientX - start.current.x;
     const dy = e.clientY - start.current.y;
+    dxRef.current = dx;
     setDrag(d => ({ ...d, dx, dy }));
   }
   function onPointerEnd() {
@@ -252,17 +258,18 @@ function DraggableHero({
     // the fly-then-act timing (flyThenRun), so a swipe and a button press can
     // never double-schedule against each other. The internal `leaving` only
     // drives this card's exit animation.
-    setDrag(d => {
-      if (d.dx > SWIPE_THRESHOLD && onSwipeRight) {
-        queueMicrotask(onSwipeRight);
-        return { ...d, active: false, leaving: 1 };
-      }
-      if (d.dx < -SWIPE_THRESHOLD && onSwipeLeft) {
-        queueMicrotask(onSwipeLeft);
-        return { ...d, active: false, leaving: -1 };
-      }
-      return { dx: 0, dy: 0, active: false, leaving: 0 };
-    });
+    const dx = dxRef.current;
+    if (dx > SWIPE_THRESHOLD && onSwipeRight) {
+      setDrag(d => ({ ...d, active: false, leaving: 1 }));
+      queueMicrotask(onSwipeRight);
+      return;
+    }
+    if (dx < -SWIPE_THRESHOLD && onSwipeLeft) {
+      setDrag(d => ({ ...d, active: false, leaving: -1 }));
+      queueMicrotask(onSwipeLeft);
+      return;
+    }
+    setDrag({ dx: 0, dy: 0, active: false, leaving: 0 });
   }
 
   const flyX = (typeof window !== "undefined" && window.innerWidth) || 1200;
