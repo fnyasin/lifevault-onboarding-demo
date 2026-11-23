@@ -32,24 +32,40 @@ export type DemoSession = {
 const EMPTY: DemoSession = { subject: null, memories: [] };
 
 let memory: DemoSession = EMPTY;
+let lastRaw: string | null = null;
+const listeners = new Set<() => void>();
 
+/** Read the session. Returns the SAME object until it changes, so React's
+ *  useSyncExternalStore can use it as a snapshot. */
 export function readSession(): DemoSession {
   try {
     const raw = sessionStorage.getItem(KEY);
-    if (raw) memory = { ...EMPTY, ...(JSON.parse(raw) as Partial<DemoSession>) };
+    if (raw !== lastRaw) {
+      lastRaw = raw;
+      memory = raw ? { ...EMPTY, ...(JSON.parse(raw) as Partial<DemoSession>) } : memory;
+    }
   } catch {
     // private mode or blocked storage: keep the in-memory copy
   }
   return memory;
 }
 
+/** For useSyncExternalStore: re-render when this tab's session changes. */
+export function subscribeSession(onChange: () => void): () => void {
+  listeners.add(onChange);
+  return () => { listeners.delete(onChange); };
+}
+
 export function writeSession(patch: Partial<DemoSession>): DemoSession {
   memory = { ...readSession(), ...patch };
   try {
-    sessionStorage.setItem(KEY, JSON.stringify(memory));
+    const raw = JSON.stringify(memory);
+    sessionStorage.setItem(KEY, raw);
+    lastRaw = raw;
   } catch {
     // private mode or blocked storage: the in-memory copy still works
   }
+  listeners.forEach((l) => l());
   return memory;
 }
 
